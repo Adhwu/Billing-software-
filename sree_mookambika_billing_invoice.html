@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sree Mookambika Tex – Billing Software</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --blue: #1565c0;
+  --blue-dark: #0d47a1;
+  --blue-mid: #1976d2;
+  --blue-light: #42a5f5;
+  --blue-pale: #e3f2fd;
+  --blue-ultra: #bbdefb;
+  --white: #ffffff;
+  --off-white: #f4f8ff;
+  --text: #0a1628;
+  --text-mid: #1e3a5f;
+  --text-soft: #4a6fa5;
+  --border: #90caf9;
+  --border-light: #c5dff8;
+  --shadow: rgba(21,101,192,0.15);
+  --green: #2e7d32;
+  --green-light: #e8f5e9;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--off-white); min-height: 100vh; }
+
+/* ================================================================ LOGIN */
+#loginPage {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; background: #020c1b;
+  position: relative; overflow: hidden;
+}
+.orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; animation: orbFloat 8s ease-in-out infinite; }
+.orb1 { width:500px;height:500px;background:radial-gradient(circle,#1565c0 0%,transparent 70%);top:-150px;left:-150px;animation-delay:0s; }
+.orb2 { width:400px;height:400px;background:radial-gradient(circle,#0d47a1 0%,transparent 70%);bottom:-100px;right:-100px;animation-delay:-3s; }
+.orb3 { width:300px;height:300px;background:radial-gradient(circle,#42a5f5 0%,transparent 70%);top:50%;left:60%;animation-delay:-5s;opacity:0.4; }
+@keyframes orbFloat { 0%,100%{transform:translate(0,0)scale(1)} 33%{transform:translate(30px,-40px)scale(1.05)} 66%{transform:translate(-20px,30px)scale(0.95)} }
+
+#particleCanvas { position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0.6; }
+.grid-overlay { position:absolute;inset:0;background-image:linear-gradient(rgba(21,101,192,0.07)1px,transparent 1px),linear-gradient(90deg,rgba(21,101,192,0.07)1px,transparent 1px);background-size:50px 50px;pointer-events:none; }
+
+.login-card {
+  position:relative;z-index:10;width:460px;
+  background:rgba(255,255,255,0.04);border:1px solid rgba(66,165,245,0.3);border-radius:16px;
+  padding:50px 48px 44px;backdrop-filter:blur(20px);
+  box-shadow:0 0 0 1px rgba(21,101,192,0.1),0 40px 80px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.08);
+  animation:cardIn 0.8s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes cardIn { from{opacity:0;transform:translateY(40px)scale(0.95)} to{opacity:1;transform:translateY(0)scale(1)} }
+.login-card::before {
+  content:'';position:absolute;top:0;left:20%;right:20%;height:2px;
+  background:linear-gradient(90deg,transparent,#42a5f5,#1565c0,#42a5f5,transparent);
+  border-radius:0 0 2px 2px;animation:glowPulse 3s ease-in-out infinite;
+}
+@keyframes glowPulse { 0%,100%{opacity:0.6} 50%{opacity:1;box-shadow:0 0 20px #42a5f5} }
+
+.brand-icon {
+  width:68px;height:68px;background:linear-gradient(135deg,#1565c0,#42a5f5);border-radius:18px;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:28px;
+  box-shadow:0 8px 32px rgba(21,101,192,0.5),0 0 0 1px rgba(66,165,245,0.3);
+  animation:iconGlow 3s ease-in-out infinite;
+}
+@keyframes iconGlow { 0%,100%{box-shadow:0 8px 32px rgba(21,101,192,0.5),0 0 0 1px rgba(66,165,245,0.3)} 50%{box-shadow:0 8px 48px rgba(21,101,192,0.8),0 0 0 1px rgba(66,165,245,0.6),0 0 30px rgba(66,165,245,0.3)} }
+
+.login-brand { text-align:center; margin-bottom:36px; }
+.login-name { font-family:'Cinzel',serif;font-size:21px;font-weight:700;color:#fff;letter-spacing:1px;line-height:1.3;animation:textGlow 3s ease-in-out infinite; }
+@keyframes textGlow { 0%,100%{text-shadow:0 0 20px rgba(66,165,245,0.4)} 50%{text-shadow:0 0 40px rgba(66,165,245,0.8),0 0 80px rgba(66,165,245,0.2)} }
+.login-tagline { font-size:11px;color:rgba(66,165,245,0.7);letter-spacing:4px;text-transform:uppercase;margin-top:6px; }
+
+.login-divider { display:flex;align-items:center;gap:12px;margin-bottom:28px; }
+.login-divider span { flex:1;height:1px;background:rgba(66,165,245,0.2); }
+.login-divider em { font-style:normal;font-size:11px;color:rgba(66,165,245,0.5);letter-spacing:2px; }
+
+.login-label { display:block;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(66,165,245,0.8);margin-bottom:8px; }
+.inp-wrap { position:relative;margin-bottom:20px; }
+.inp-wrap .ico { position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;opacity:0.5; }
+.inp-wrap input {
+  width:100%;padding:13px 14px 13px 42px;background:rgba(255,255,255,0.05);
+  border:1px solid rgba(66,165,245,0.2);border-radius:10px;
+  font-family:'Inter',sans-serif;font-size:14px;color:#fff;outline:none;transition:all 0.3s;
+}
+.inp-wrap input::placeholder { color:rgba(255,255,255,0.25); }
+.inp-wrap input:focus { border-color:rgba(66,165,245,0.7);background:rgba(255,255,255,0.08);box-shadow:0 0 0 3px rgba(66,165,245,0.1); }
+
+.login-btn {
+  width:100%;padding:14px;
+  background:linear-gradient(135deg,#1565c0 0%,#1976d2 50%,#42a5f5 100%);
+  color:white;border:none;border-radius:10px;font-family:'Cinzel',serif;font-size:15px;
+  font-weight:600;letter-spacing:1.5px;cursor:pointer;transition:all 0.3s;
+  position:relative;overflow:hidden;box-shadow:0 8px 24px rgba(21,101,192,0.4);margin-top:4px;
+}
+.login-btn::before { content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transition:left 0.5s; }
+.login-btn:hover::before { left:100%; }
+.login-btn:hover { transform:translateY(-2px);box-shadow:0 12px 32px rgba(21,101,192,0.6); }
+.login-btn:active { transform:translateY(0); }
+.login-err { text-align:center;color:#ff6b6b;font-size:12px;margin-top:12px;display:none;animation:shake 0.4s ease; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
+
+/* ================================================================ TOP BAR */
+.topbar {
+  background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 100%);
+  padding:0 28px;display:flex;align-items:center;justify-content:space-between;
+  height:58px;box-shadow:0 2px 12px rgba(13,71,161,0.3);position:sticky;top:0;z-index:100;
+}
+.tbl { display:flex;align-items:center;gap:12px; }
+.tbl-icon { width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px; }
+.tbl-title { font-family:'Cinzel',serif;font-size:17px;font-weight:700;color:white;letter-spacing:0.5px; }
+.tbr { display:flex;align-items:center;gap:14px; }
+.wchip { background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:5px 14px;color:white;font-size:13px;font-weight:500; }
+.logout-btn { background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.25);color:white;padding:6px 16px;border-radius:6px;cursor:pointer;font-size:12.5px;font-weight:500;transition:all 0.2s; }
+.logout-btn:hover { background:rgba(255,255,255,0.2); }
+.back-btn { background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.85);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;transition:all 0.2s;display:flex;align-items:center;gap:5px; }
+.back-btn:hover { background:rgba(255,255,255,0.18);color:white; }
+
+/* ================================================================ MODE PAGE */
+#modePage { display:none; }
+.mode-wrap {
+  min-height:calc(100vh - 58px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:48px 24px;
+  background: radial-gradient(ellipse at 20% 20%, rgba(21,101,192,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 80%, rgba(66,165,245,0.06) 0%, transparent 60%),
+              var(--off-white);
+}
+.mode-greeting {
+  text-align:center;margin-bottom:52px;
+}
+.mode-greeting h1 { font-family:'Cinzel',serif;font-size:28px;font-weight:700;color:var(--blue-dark);margin-bottom:8px; }
+.mode-greeting p { font-size:14px;color:var(--text-soft);letter-spacing:0.3px; }
+.mode-sep { width:60px;height:3px;background:linear-gradient(90deg,var(--blue-dark),var(--blue-light));border-radius:2px;margin:14px auto 0; }
+
+.mode-cards { display:flex;gap:32px;flex-wrap:wrap;justify-content:center; }
+
+.mode-card {
+  width:300px;background:white;
+  border:2px solid var(--border-light);border-radius:24px;
+  padding:44px 36px 36px;cursor:pointer;
+  transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow:0 4px 24px var(--shadow);
+  text-align:center;position:relative;overflow:hidden;
+}
+.mode-card::before {
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--blue-dark),var(--blue-light));
+  transition:height 0.3s;
+}
+.mode-card::after {
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(21,101,192,0.03),rgba(66,165,245,0.06));
+  opacity:0;transition:opacity 0.3s;border-radius:22px;
+}
+.mode-card:hover { transform:translateY(-12px) scale(1.02);border-color:var(--blue);box-shadow:0 28px 70px rgba(21,101,192,0.22); }
+.mode-card:hover::before { height:6px; }
+.mode-card:hover::after { opacity:1; }
+
+.mode-icon-wrap {
+  width:88px;height:88px;border-radius:24px;margin:0 auto 24px;
+  display:flex;align-items:center;justify-content:center;font-size:40px;
+  position:relative;z-index:1;transition:all 0.3s;
+}
+.mc-invoice .mode-icon-wrap { background:linear-gradient(135deg,#e3f2fd,#bbdefb); }
+.mc-excel .mode-icon-wrap   { background:linear-gradient(135deg,#e8f5e9,#c8e6c9); }
+.mode-card:hover .mode-icon-wrap {
+  transform:scale(1.08) rotate(-3deg);
+  box-shadow:0 12px 32px rgba(21,101,192,0.2);
+}
+.mc-excel:hover .mode-icon-wrap { box-shadow:0 12px 32px rgba(46,125,50,0.2); }
+
+.mode-card-title { font-family:'Cinzel',serif;font-size:17px;font-weight:700;color:var(--blue-dark);margin-bottom:10px;position:relative;z-index:1; }
+.mc-excel .mode-card-title { color:#1b5e20; }
+.mode-card-desc { font-size:12.5px;color:var(--text-soft);line-height:1.75;position:relative;z-index:1; }
+.mode-card-arrow {
+  margin-top:28px;display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;letter-spacing:0.5px;
+  color:var(--blue);opacity:0;transform:translateY(6px);
+  transition:all 0.3s;position:relative;z-index:1;
+}
+.mc-excel .mode-card-arrow { color:var(--green); }
+.mode-card:hover .mode-card-arrow { opacity:1;transform:translateY(0); }
+
+.mode-badge {
+  position:absolute;top:16px;right:16px;background:var(--blue-pale);
+  color:var(--blue);font-size:10px;font-weight:700;letter-spacing:1px;
+  padding:3px 10px;border-radius:20px;text-transform:uppercase;
+}
+.mc-excel .mode-badge { background:#e8f5e9;color:var(--green); }
+
+/* ================================================================ INVOICE FORM */
+#appPage { display:none; }
+.form-wrap { max-width:980px;margin:24px auto;padding:0 20px 48px; }
+.sc { background:white;border:1px solid var(--border-light);border-radius:12px;padding:22px 24px;margin-bottom:18px;box-shadow:0 2px 8px var(--shadow); }
+.stitle { font-size:11.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:8px;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid var(--blue-pale); }
+.stitle::before { content:'';width:4px;height:16px;background:var(--blue);border-radius:2px; }
+
+.fg { display:flex;flex-direction:column;gap:5px; }
+.fg label { font-size:10.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-soft); }
+.fg input,.fg textarea {
+  padding:9px 12px;border:1.5px solid var(--border-light);border-radius:8px;
+  font-family:'Inter',sans-serif;font-size:13px;color:var(--text);outline:none;
+  transition:all 0.2s;background:var(--off-white);width:100%;
+}
+.fg textarea { resize:vertical;min-height:68px; }
+.fg input:focus,.fg textarea:focus { border-color:var(--blue-mid);background:white;box-shadow:0 0 0 3px rgba(21,101,192,0.08); }
+
+.g3 { display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px 20px; }
+.g2 { display:grid;grid-template-columns:1fr 1fr;gap:14px 20px; }
+.g4 { display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px 20px; }
+.s2 { grid-column:span 2; }
+.s3 { grid-column:1/-1; }
+
+/* Items table */
+.items-card { background:white;border:1px solid var(--border-light);border-radius:12px;padding:22px 24px;margin-bottom:18px;overflow-x:auto; }
+table.itbl { width:100%;border-collapse:collapse;font-size:12.5px;min-width:760px; }
+table.itbl thead tr { background:linear-gradient(135deg,var(--blue-dark),var(--blue-mid)); }
+table.itbl thead th { color:white;padding:10px 8px;text-align:center;font-size:11px;font-weight:600;letter-spacing:0.5px;border:1px solid rgba(255,255,255,0.1); }
+table.itbl tbody tr:nth-child(even) { background:#f0f7ff; }
+table.itbl tbody tr:nth-child(odd) { background:white; }
+table.itbl tbody tr:hover { background:#dbeeff; }
+table.itbl tbody td { border:1px solid var(--border-light);padding:3px 4px; }
+table.itbl tbody input { width:100%;border:none;background:transparent;font-family:'Inter',sans-serif;font-size:12.5px;color:var(--text);padding:5px 6px;outline:none;text-align:center; }
+table.itbl tbody input:focus { background:#e8f4ff;border-radius:4px;outline:2px solid var(--blue-light); }
+table.itbl tbody td.dl input { text-align:left; }
+table.itbl tfoot tr { background:var(--blue-pale); }
+table.itbl tfoot td { border:1px solid var(--border);padding:8px 10px;font-weight:700;color:var(--blue-dark);font-size:13px; }
+
+.ibtns { display:flex;gap:10px;margin-top:12px; }
+.btn-add { padding:8px 20px;background:var(--blue);color:white;border:none;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.2s; }
+.btn-add:hover { background:var(--blue-dark);transform:translateY(-1px); }
+.btn-rem { padding:8px 20px;background:#fff0f0;color:#c0392b;border:1.5px solid #ffcdd2;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.2s; }
+.btn-rem:hover { background:#ffebee; }
+
+/* Totals */
+.totals-row { display:flex;justify-content:flex-end;margin-bottom:18px; }
+.totals-box { background:white;border:1px solid var(--border-light);border-radius:12px;padding:16px 20px;min-width:310px;box-shadow:0 2px 8px var(--shadow); }
+.trow { display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border-light);font-size:13px; }
+.trow:last-child { border-bottom:none;font-size:15px;font-weight:700;color:var(--blue-dark);margin-top:4px;padding-top:8px;border-top:2px solid var(--blue); }
+.trow label { color:var(--text-soft);font-size:12px; }
+.trow span { font-weight:600;color:var(--text); }
+
+.wbox { background:linear-gradient(135deg,var(--blue-pale),#dceeff);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:18px; }
+.wbox label { font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--blue-dark);display:block;margin-bottom:6px; }
+.wbox input { width:100%;border:1.5px solid var(--border);background:white;border-radius:7px;padding:9px 12px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;color:var(--text);outline:none;transition:border-color 0.2s; }
+.wbox input:focus { border-color:var(--blue); }
+
+/* Tax table */
+table.ttbl { width:100%;border-collapse:collapse;font-size:12.5px; }
+table.ttbl th { background:var(--blue-pale);color:var(--blue-dark);padding:9px 10px;border:1px solid var(--border);font-size:11px;font-weight:700;text-align:center;letter-spacing:0.5px; }
+table.ttbl td { border:1px solid var(--border-light);padding:5px 8px;background:white;text-align:center; }
+table.ttbl input { width:100%;border:none;background:transparent;font-family:'Inter',sans-serif;font-size:12.5px;color:var(--text);text-align:center;outline:none;padding:3px 4px; }
+table.ttbl input:focus { background:var(--blue-pale);border-radius:4px;outline:2px solid var(--blue-light); }
+table.ttbl tfoot td { background:var(--blue-pale);font-weight:700;color:var(--blue-dark); }
+
+/* Declaration */
+.decl-grid { display:grid;grid-template-columns:1fr 1fr;gap:0; }
+.decl-l { padding-right:24px;border-right:1px solid var(--border-light);font-size:12px;color:var(--text-mid);line-height:1.8; }
+.decl-l strong { font-size:12.5px;color:var(--text); }
+.decl-r { padding-left:24px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:space-between; }
+.decl-r .forco { font-size:12px;color:var(--text-soft); }
+.decl-r strong { color:var(--blue-dark); }
+.sign-line { width:130px;height:52px;border-bottom:1.5px solid var(--text);margin:16px auto 4px; }
+.decl-r .auth { font-size:12px;font-weight:600;color:var(--text); }
+
+/* Actions */
+.abar { display:flex;justify-content:center;gap:16px;margin-top:8px;padding-top:24px;border-top:2px solid var(--blue-pale); }
+.btn-print { padding:14px 48px;background:linear-gradient(135deg,var(--blue-dark),var(--blue-mid));color:white;border:none;border-radius:10px;font-family:'Cinzel',serif;font-size:15px;font-weight:600;letter-spacing:1px;cursor:pointer;transition:all 0.25s;box-shadow:0 6px 20px rgba(13,71,161,0.35); }
+.btn-print:hover { transform:translateY(-2px);box-shadow:0 10px 28px rgba(13,71,161,0.5); }
+.btn-clear { padding:14px 36px;background:white;color:var(--blue);border:2px solid var(--blue);border-radius:10px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s; }
+.btn-clear:hover { background:var(--blue-pale); }
+
+/* ================================================================ PRINT */
+@media print {
+  @page { size:A4;margin:8mm; }
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{background:white!important;}
+  #loginPage,#modePage{display:none!important;}
+  .topbar,.abar,.ibtns,.stitle,.totals-row,.wbox,.sc,.items-card,.decl-grid{display:none!important;}
+  #appPage{display:block!important;}
+  .form-wrap{margin:0;padding:0;max-width:100%;}
+  #printInvoice{display:block!important;}
+}
+#printInvoice{display:none;}
+
+/* Print doc styles */
+.inv-doc {
+  font-family: Arial, sans-serif;
+  font-size: 9.5pt;
+  color: #000;
+  width: 100%;
+  border: 1px solid #333;
+  padding: 10px;
+  background: white;
+}
+.inv-doc table { width: 100%; border-collapse: collapse; margin-bottom: 6px; }
+.inv-doc td, .inv-doc th { border: 1px solid #333; padding: 5px 6px; vertical-align: top; }
+.inv-doc .inv-title { text-align: center; font-size: 14pt; font-weight: bold; background: #eef2fa; padding: 8px; }
+.inv-doc .co-name { font-size: 13pt; font-weight: bold; font-family: 'Cinzel', serif; }
+.inv-doc .lbl { font-weight: bold; font-size: 8.5pt; background: #f3f7fc; white-space: nowrap; }
+.inv-doc .val { font-size: 9.5pt; }
+.inv-doc .th-blue { background: #ddeeff; font-weight: bold; text-align: center; font-size: 9pt; }
+.inv-doc .ic { text-align: center; }
+.inv-doc .ir { text-align: right; }
+.inv-doc .il { text-align: left; }
+.inv-doc .bold { font-weight: bold; }
+.inv-doc .totrow { background: #eef5ff; font-weight: bold; }
+.inv-doc .field-cell { border: 1px solid #333; padding: 4px 6px; vertical-align: top; min-height: 32px; }
+.inv-doc .field-lbl { font-size: 7.5pt; font-weight: bold; color: #333; letter-spacing: 0.3px; margin-bottom: 3px; }
+.inv-doc .field-val { font-size: 9.5pt; color: #000; min-height: 14px; }
+.inv-doc .co-cell { border: 1px solid #333; padding: 8px; vertical-align: top; }
+
+/* ================================================================ EXPORT PAGE */
+
+.export-wrap { max-width:1000px;margin:28px auto;padding:0 20px 60px; }
+
+.exp-section { background:white;border:1px solid var(--border-light);border-radius:14px;padding:24px;margin-bottom:22px;box-shadow:0 2px 10px var(--shadow); }
+.exp-title {
+  font-size:11.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--blue);display:flex;align-items:center;gap:8px;
+  margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--blue-pale);
+}
+.exp-title::before { content:'';width:4px;height:16px;background:var(--blue);border-radius:2px; }
+
+/* Period input row */
+.period-row { display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap; }
+.period-row label { font-size:12px;font-weight:600;color:var(--text-mid);white-space:nowrap; }
+.period-row input,.period-row select {
+  padding:9px 14px;border:1.5px solid var(--border-light);border-radius:8px;
+  font-family:'Inter',sans-serif;font-size:13px;color:var(--text);outline:none;
+  background:var(--off-white);transition:all 0.2s;
+}
+.period-row input:focus,.period-row select:focus { border-color:var(--blue-mid);background:white; }
+
+/* Dropzone */
+.dropzone {
+  border:2.5px dashed var(--border);border-radius:16px;
+  background:linear-gradient(135deg,var(--blue-pale),#dceeff 100%);
+  padding:52px 32px;text-align:center;cursor:pointer;
+  transition:all 0.3s;position:relative;overflow:hidden;
+}
+.dropzone::before {
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(21,101,192,0.04),rgba(66,165,245,0.08));
+  opacity:0;transition:opacity 0.3s;
+}
+.dropzone:hover,
+.dropzone.dragover { border-color:var(--blue);border-style:solid; }
+.dropzone:hover::before,
+.dropzone.dragover::before { opacity:1; }
+.dropzone-icon { font-size:52px;margin-bottom:14px;display:block;
+  animation:floatIcon 3s ease-in-out infinite; }
+@keyframes floatIcon { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+.dropzone-title { font-size:16px;font-weight:700;color:var(--blue-dark);margin-bottom:6px; }
+.dropzone-sub { font-size:12.5px;color:var(--text-soft); }
+.dropzone-btn {
+  display:inline-block;margin-top:18px;padding:10px 28px;
+  background:var(--blue);color:white;border-radius:8px;
+  font-size:13px;font-weight:600;transition:all 0.2s;
+}
+.dropzone:hover .dropzone-btn { background:var(--blue-dark);transform:translateY(-1px); }
+#pdfFileInput { display:none; }
+
+/* File list */
+.file-list { margin-top:16px;display:flex;flex-direction:column;gap:8px; }
+.file-item {
+  display:flex;align-items:center;gap:12px;
+  background:var(--off-white);border:1px solid var(--border-light);
+  border-radius:10px;padding:10px 16px;
+  animation:slideIn 0.3s ease;
+}
+@keyframes slideIn { from{opacity:0;transform:translateX(-12px)} to{opacity:1;transform:translateX(0)} }
+.file-item-icon { font-size:20px;flex-shrink:0; }
+.file-item-name { flex:1;font-size:13px;font-weight:500;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+.file-item-size { font-size:11px;color:var(--text-soft);flex-shrink:0; }
+.file-item-type {
+  flex-shrink:0;
+}
+.file-item-type select {
+  padding:4px 8px;border:1.5px solid var(--border-light);border-radius:6px;
+  font-size:12px;font-family:'Inter',sans-serif;color:var(--text);background:white;outline:none;
+}
+.file-status-badge {
+  flex-shrink:0;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:0.5px;
+}
+.fsb-pending  { background:#fff3e0;color:#e65100; }
+.fsb-processing { background:var(--blue-pale);color:var(--blue);animation:pulseBadge 1s ease-in-out infinite; }
+.fsb-done     { background:#e8f5e9;color:#2e7d32; }
+.fsb-error    { background:#ffebee;color:#c62828; }
+@keyframes pulseBadge { 0%,100%{opacity:1} 50%{opacity:0.6} }
+.file-del-btn { background:none;border:none;cursor:pointer;font-size:16px;opacity:0.4;transition:opacity 0.2s;padding:2px;flex-shrink:0; }
+.file-del-btn:hover { opacity:1; }
+
+/* Extract button */
+.extract-btn {
+  width:100%;padding:14px;margin-top:18px;
+  background:linear-gradient(135deg,var(--blue-dark),var(--blue-mid));
+  color:white;border:none;border-radius:10px;
+  font-family:'Cinzel',serif;font-size:15px;font-weight:600;letter-spacing:1px;
+  cursor:pointer;transition:all 0.25s;
+  box-shadow:0 6px 20px rgba(13,71,161,0.3);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.extract-btn:hover:not(:disabled) { transform:translateY(-2px);box-shadow:0 10px 32px rgba(13,71,161,0.45); }
+.extract-btn:disabled { opacity:0.6;cursor:not-allowed; }
+.spin { display:inline-block;animation:spin 1s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* Results tables */
+.results-section { display:none; }
+.results-tabs { display:flex;gap:0;margin-bottom:0;border-radius:10px 10px 0 0;overflow:hidden;border:1px solid var(--border-light); }
+.rtab {
+  flex:1;padding:12px 20px;font-size:12.5px;font-weight:600;
+  cursor:pointer;text-align:center;transition:all 0.2s;
+  background:var(--off-white);color:var(--text-soft);border:none;
+}
+.rtab.active { background:white;color:var(--blue);border-bottom:2px solid var(--blue); }
+
+.results-table-wrap {
+  background:white;border:1px solid var(--border-light);border-top:none;
+  border-radius:0 0 12px 12px;overflow-x:auto;
+}
+table.rtbl { width:100%;border-collapse:collapse;font-size:12px;min-width:900px; }
+table.rtbl thead tr { background:linear-gradient(135deg,var(--blue-dark),var(--blue-mid)); }
+table.rtbl thead th { color:white;padding:9px 7px;text-align:center;font-size:10.5px;font-weight:600;letter-spacing:0.4px;border:1px solid rgba(255,255,255,0.1);white-space:nowrap; }
+table.rtbl tbody tr { transition:background 0.15s; }
+table.rtbl tbody tr:nth-child(even) { background:#f6fbff; }
+table.rtbl tbody tr:hover { background:#dbeeff; }
+table.rtbl tbody td { border:1px solid var(--border-light);padding:3px 4px;vertical-align:middle; }
+table.rtbl tbody input {
+  width:100%;border:none;background:transparent;
+  font-family:'Inter',sans-serif;font-size:12px;color:var(--text);
+  padding:5px 6px;outline:none;text-align:center;
+}
+table.rtbl tbody input:focus { background:#e8f4ff;border-radius:4px;outline:2px solid var(--blue-light); }
+table.rtbl tbody td.tl input { text-align:left; }
+table.rtbl tfoot tr { background:linear-gradient(135deg,#e3f2fd,#dceeff); }
+table.rtbl tfoot td { border:1px solid var(--border);padding:9px 8px;font-weight:700;color:var(--blue-dark);font-size:12px;text-align:center; }
+
+.add-row-btn {
+  margin:10px 0 0;padding:7px 18px;background:white;color:var(--blue);
+  border:1.5px solid var(--blue);border-radius:7px;
+  font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;
+}
+.add-row-btn:hover { background:var(--blue-pale); }
+
+/* Download button */
+.download-bar {
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(135deg,#1b5e20,#2e7d32);
+  border-radius:14px;padding:22px 28px;margin-top:24px;
+  box-shadow:0 8px 28px rgba(46,125,50,0.3);
+}
+.download-bar-info { color:white; }
+.download-bar-info strong { font-size:15px;display:block;margin-bottom:3px;font-family:'Cinzel',serif; }
+.download-bar-info span { font-size:12px;opacity:0.8; }
+.download-btn {
+  padding:13px 36px;background:white;color:#2e7d32;
+  border:none;border-radius:10px;
+  font-family:'Cinzel',serif;font-size:14px;font-weight:700;letter-spacing:0.5px;
+  cursor:pointer;transition:all 0.25s;
+  box-shadow:0 4px 16px rgba(0,0,0,0.15);
+  display:flex;align-items:center;gap:8px;
+}
+.download-btn:hover { transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.2); }
+
+/* Notification toast */
+.toast {
+  position:fixed;bottom:28px;right:28px;z-index:9999;
+  background:white;border:1px solid var(--border-light);
+  border-left:4px solid var(--blue);border-radius:10px;
+  padding:14px 20px;box-shadow:0 8px 32px rgba(0,0,0,0.15);
+  font-size:13px;color:var(--text);
+  display:flex;align-items:center;gap:10px;
+  animation:toastIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+.toast.success { border-left-color:#2e7d32; }
+.toast.error { border-left-color:#c62828; }
+@keyframes toastIn { from{opacity:0;transform:translateX(40px)} to{opacity:1;transform:translateX(0)} }
+</style>
+</head>
+<body>
+
+<!-- ===================== LOGIN ===================== -->
+<div id="loginPage">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="grid-overlay"></div>
+  <canvas id="particleCanvas"></canvas>
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="brand-icon">ST</div>
+      <div class="login-name">SREE MOOKAMBIKA TEX</div>
+      <div class="login-tagline">Billing &amp; Invoice Software</div>
+    </div>
+    <div class="login-divider"><span></span><em>SIGN IN</em><span></span></div>
+    <label class="login-label">Username</label>
+    <div class="inp-wrap"><span class="ico">👤</span><input type="text" id="lu" placeholder="Enter username" autocomplete="off"></div>
+    <label class="login-label">Password</label>
+    <div class="inp-wrap"><span class="ico">🔒</span><input type="password" id="lp" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="login-btn" onclick="doLogin()">ACCESS BILLING PORTAL</button>
+    <div class="login-err" id="lerr">⚠ Invalid username or password</div>
+  </div>
+</div>
+
+<!-- ===================== MODE SELECTION ===================== -->
+<div id="modePage">
+  <div class="topbar">
+    <div class="tbl">
+      <div class="tbl-icon">ST</div>
+      <div class="tbl-title">SREE MOOKAMBIKA TEX</div>
+    </div>
+    <div class="tbr">
+      <div class="wchip">Welcome, Mr. Ashokan</div>
+      <button class="logout-btn" onclick="doLogout()">Logout</button>
+    </div>
+  </div>
+  <div class="mode-wrap">
+    <div class="mode-greeting">
+      <h1>Select Your Module</h1>
+      <p>Choose what you would like to do today</p>
+      <div class="mode-sep"></div>
+    </div>
+    <div class="mode-cards">
+      <div class="mode-card mc-invoice" onclick="goMode('invoice')">
+        <div class="mode-badge">GENERATE</div>
+        <div class="mode-icon-wrap">🧾</div>
+        <div class="mode-card-title">Generate Invoice</div>
+        <div class="mode-card-desc">Create professional GST tax invoices, fill in buyer and goods details, and print or save as PDF.</div>
+        <div class="mode-card-arrow">Open Invoice Form →</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===================== INVOICE APP ===================== -->
+<div id="appPage">
+  <div class="topbar">
+    <div class="tbl">
+      <div class="tbl-icon">ST</div>
+      <div class="tbl-title">SREE MOOKAMBIKA TEX</div>
+    </div>
+    <div class="tbr">
+      <button class="back-btn" onclick="backToMenu()">← Menu</button>
+      <div class="wchip">Welcome, Mr. Ashokan</div>
+      <button class="logout-btn" onclick="doLogout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="form-wrap">
+    <!-- INVOICE DETAILS -->
+    <div class="sc">
+      <div class="stitle">Invoice Details</div>
+      <div class="g3">
+        <div class="fg"><label>Invoice No.</label><input type="text" id="f_invno" placeholder="e.g. INV-001"></div>
+        <div class="fg"><label>e-Way Bill No.</label><input type="text" id="f_ewaybill"></div>
+        <div class="fg"><label>Dated</label><input type="date" id="f_date"></div>
+        <div class="fg"><label>Delivery Note</label><input type="text" id="f_dnote"></div>
+        <div class="fg"><label>Mode / Terms of Payment</label><input type="text" id="f_pterm"></div>
+        <div class="fg"><label>Reference No. &amp; Date</label><input type="text" id="f_refno"></div>
+        <div class="fg"><label>Other References</label><input type="text" id="f_oref"></div>
+        <div class="fg"><label>Buyer's Order No.</label><input type="text" id="f_bono"></div>
+        <div class="fg"><label>Buyer's Order Dated</label><input type="date" id="f_bodate"></div>
+        <div class="fg"><label>Dispatch Doc No.</label><input type="text" id="f_ddoc"></div>
+        <div class="fg"><label>Delivery Note Date</label><input type="date" id="f_dndate"></div>
+        <div class="fg"><label>Dispatched Through</label><input type="text" id="f_dthru"></div>
+        <div class="fg"><label>Destination</label><input type="text" id="f_dest"></div>
+        <div class="fg"><label>Bill of Lading / LR-RR No.</label><input type="text" id="f_bl"></div>
+        <div class="fg"><label>Motor Vehicle No.</label><input type="text" id="f_veh"></div>
+        <div class="fg s3"><label>Terms of Delivery</label><input type="text" id="f_dterm"></div>
+      </div>
+    </div>
+
+    <!-- CONSIGNEE & BUYER -->
+    <div class="sc">
+      <div class="stitle">Consignee &amp; Buyer</div>
+      <div class="g2">
+        <div class="fg"><label>Consignee (Ship To)</label><textarea id="f_cons" placeholder="Name&#10;Address&#10;GSTIN / UIN&#10;State Name &amp; Code"></textarea></div>
+        <div class="fg"><label>Buyer (Bill To)</label><textarea id="f_buyer" placeholder="Name&#10;Address&#10;GSTIN / UIN&#10;State Name &amp; Code"></textarea></div>
+      </div>
+    </div>
+
+    <!-- ITEMS TABLE -->
+    <div class="items-card">
+      <div class="stitle">Description of Goods</div>
+      <table class="itbl">
+        <thead>
+          <tr>
+            <th style="width:40px">Sl No.</th>
+            <th style="min-width:200px;text-align:left;padding-left:10px">Description of Goods</th>
+            <th style="width:80px">HSN/SAC</th>
+            <th style="width:90px">Quantity</th>
+            <th style="width:115px">Rate (₹)</th>
+            <th style="width:55px">Per</th>
+            <th style="width:125px">Amount (₹)</th>
+          </tr>
+        </thead>
+        <tbody id="itemsBody"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" style="text-align:right;letter-spacing:1px;font-size:12px">TOTAL</td>
+            <td id="ftQty" style="text-align:center"></td>
+            <td colspan="2"></td>
+            <td id="ftAmt" style="text-align:right"></td>
+          </tr>
+        </tfoot>
+      </table>
+      <div class="ibtns">
+        <button class="btn-add" onclick="addRow()">+ Add Row</button>
+        <button class="btn-rem" onclick="delRow()">− Remove Last Row</button>
+      </div>
+    </div>
+
+    <!-- TOTALS SUMMARY -->
+    <div class="totals-row">
+      <div class="totals-box">
+        <div class="trow"><label>Sub Total</label><span id="ts_sub">₹ 0.00</span></div>
+        <div class="trow"><label>IGST Amount</label><span id="ts_igst">₹ 0.00</span></div>
+        <div class="trow"><label>CGST Amount</label><span id="ts_cgst">₹ 0.00</span></div>
+        <div class="trow"><label>SGST Amount</label><span id="ts_sgst">₹ 0.00</span></div>
+        <div class="trow"><label>Grand Total (incl. GST)</label><span id="ts_grand">₹ 0.00</span></div>
+      </div>
+    </div>
+
+    <!-- AMOUNT IN WORDS -->
+    <div class="wbox">
+      <label>Amount Chargeable (in words) – E.&amp;O.E</label>
+      <input type="text" id="f_amtwords" placeholder="Auto-calculated…">
+    </div>
+
+    <!-- TAX TABLE -->
+    <div class="sc">
+      <div class="stitle">Tax Summary (IGST / CGST / SGST)</div>
+      <table class="ttbl">
+        <thead>
+          <tr>
+            <th rowspan="2" style="width:100px">HSN / SAC</th>
+            <th rowspan="2">Taxable Value (₹)</th>
+            <th colspan="2">IGST</th>
+            <th colspan="2">CGST</th>
+            <th colspan="2">SGST</th>
+            <th rowspan="2">Total Tax (₹)</th>
+          </tr>
+          <tr>
+            <th style="width:80px">Rate (%)</th>
+            <th style="width:100px">Amount (₹)</th>
+            <th style="width:80px">Rate (%)</th>
+            <th style="width:100px">Amount (₹)</th>
+            <th style="width:80px">Rate (%)</th>
+            <th style="width:100px">Amount (₹)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="text" id="tx_hsn"></td>
+            <td><input type="text" id="tx_taxable" oninput="calcTax()"></td>
+            <td><input type="text" id="tx_igst_rate" oninput="calcTax()" placeholder="e.g. 5"></td>
+            <td><input type="text" id="tx_igst_amt" style="background:#eef5ff;font-weight:600" readonly></td>
+            <td><input type="text" id="tx_cgst_rate" oninput="calcTax()" placeholder="e.g. 9"></td>
+            <td><input type="text" id="tx_cgst_amt" style="background:#eef5ff;font-weight:600" readonly></td>
+            <td><input type="text" id="tx_sgst_rate" oninput="calcTax()" placeholder="e.g. 9"></td>
+            <td><input type="text" id="tx_sgst_amt" style="background:#eef5ff;font-weight:600" readonly></td>
+            <td><input type="text" id="tx_totaltax" style="background:#eef5ff;font-weight:600" readonly></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td class="bold">Total</td>
+            <td><input type="text" id="tx_ttaxable" style="font-weight:700;background:transparent;text-align:center" readonly></td>
+            <td></td>
+            <td><input type="text" id="tx_tigst" style="font-weight:700;background:transparent;text-align:center" readonly></td>
+            <td></td>
+            <td><input type="text" id="tx_tcgst" style="font-weight:700;background:transparent;text-align:center" readonly></td>
+            <td></td>
+            <td><input type="text" id="tx_tsgst" style="font-weight:700;background:transparent;text-align:center" readonly></td>
+            <td><input type="text" id="tx_ttotal" style="font-weight:700;background:transparent;text-align:center" readonly></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- TAX IN WORDS -->
+    <div class="wbox">
+      <label>Tax Amount (in words)</label>
+      <input type="text" id="f_taxwords" placeholder="Auto-calculated…">
+    </div>
+
+    <!-- DECLARATION -->
+    <div class="sc">
+      <div class="stitle">Declaration &amp; Signature</div>
+      <div class="decl-grid">
+        <div class="decl-l">
+          <strong>Declaration</strong><br>
+          We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.
+        </div>
+        <div class="decl-r">
+          <div class="forco">for <strong>SREE MOOKAMBIKA TEX</strong></div>
+          <div class="sign-line"></div>
+          <div class="auth">Authorised Signatory</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="abar">
+      <button class="btn-clear" onclick="clearForm()">Clear Form</button>
+      <button class="btn-print" onclick="printInvoice()">🖨 Print / Save PDF</button>
+    </div>
+  </div><!-- /form-wrap -->
+  <div id="printInvoice"></div>
+</div>
+
+<!-- ===================== EXPORT PAGE ===================== -->
+
+
+<script>
+/* ================================================================ PARTICLES */
+(function(){
+  const cv=document.getElementById('particleCanvas'),ctx=cv.getContext('2d');
+  let W,H,pts=[];
+  function rsz(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;}
+  rsz();window.addEventListener('resize',rsz);
+  function Pt(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*2+0.5;this.vx=(Math.random()-.5)*.4;this.vy=(Math.random()-.5)*.4;this.a=Math.random()*.5+.1;}
+  for(let i=0;i<120;i++)pts.push(new Pt());
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(66,165,245,${p.a})`;ctx.fill();
+    });
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<100){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(66,165,245,${.08*(1-d/100)})`;ctx.lineWidth=.6;ctx.stroke();}
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ================================================================ LOGIN */
+function doLogin(){
+  const u=document.getElementById('lu').value.trim();
+  const p=document.getElementById('lp').value.trim();
+  const err=document.getElementById('lerr');
+  if(u==='admin'&&p==='123'){
+    err.style.display='none';
+    document.getElementById('loginPage').style.display='none';
+    document.getElementById('modePage').style.display='block';
+  } else {
+    err.style.display='block';err.style.animation='none';
+    void err.offsetWidth;err.style.animation='shake 0.4s ease';
+    document.getElementById('lp').value='';document.getElementById('lp').focus();
+  }
+}
+function doLogout(){
+  document.getElementById('loginPage').style.display='flex';
+  document.getElementById('modePage').style.display='none';
+  document.getElementById('appPage').style.display='none';
+  document.getElementById('exportPage').style.display='none';
+  document.getElementById('lu').value='';document.getElementById('lp').value='';
+}
+
+/* ================================================================ MODE NAVIGATION */
+function goMode(mode){
+  document.getElementById('modePage').style.display='none';
+  document.getElementById('appPage').style.display='block';
+  appInit();
+}
+function backToMenu(){
+  document.getElementById('appPage').style.display='none';
+  document.getElementById('modePage').style.display='block';
+}
+
+/* ================================================================ INR FORMAT */
+function fmtINR(n){
+  if(isNaN(n)||n===''||n===null) return '';
+  const num=parseFloat(n);
+  if(isNaN(num)) return '';
+  const fixed=num.toFixed(2);
+  const [ip,dp]=fixed.split('.');
+  let last3=ip.slice(-3);
+  let rest=ip.slice(0,-3);
+  let ip_fmt;
+  if(rest.length>0){ rest=rest.replace(/\B(?=(\d{2})+(?!\d))/g,','); ip_fmt=rest+','+last3; }
+  else { ip_fmt=last3; }
+  return ip_fmt+'.'+dp;
+}
+
+/* ================================================================ WORDS */
+const _ones=['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+const _tens=['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+function _b100(n){return n<20?_ones[n]:_tens[Math.floor(n/10)]+(n%10?' '+_ones[n%10]:'');}
+function _b1000(n){return n<100?_b100(n):_ones[Math.floor(n/100)]+' Hundred'+(n%100?' '+_b100(n%100):'');}
+function _n2w(n){
+  if(n===0)return 'Zero';
+  let r='';
+  const cr=Math.floor(n/1e7);n%=1e7;
+  const lk=Math.floor(n/1e5);n%=1e5;
+  const th=Math.floor(n/1e3);n%=1e3;
+  if(cr)r+=_b1000(cr)+' Crore ';
+  if(lk)r+=_b100(lk)+' Lakh ';
+  if(th)r+=_b1000(th)+' Thousand ';
+  if(n)r+=_b1000(n);
+  return r.trim();
+}
+function toWords(val){
+  if(!val||isNaN(val)||parseFloat(val)===0)return '';
+  const v=Math.round(parseFloat(val)*100)/100;
+  const ip=Math.floor(v);
+  const ps=Math.round((v-ip)*100);
+  let w='Rupees '+_n2w(ip);
+  if(ps>0)w+=' and '+_n2w(ps)+' Paise';
+  return w+' Only';
+}
+
+/* ================================================================ INVOICE FORM */
+let rowCount=0;
+function appInit(){
+  document.getElementById('f_date').value=new Date().toISOString().split('T')[0];
+  document.getElementById('itemsBody').innerHTML='';
+  rowCount=0;
+  for(let i=0;i<5;i++)addRow();
+  const defaultText="Cannanore Handlooms Exports\nMelechovva\nKannur\nGSTIN/UIN : 32AACFC1904F1Z8\nState Name : Kerala, Code : 32";
+  document.getElementById('f_cons').value=defaultText;
+  document.getElementById('f_buyer').value=defaultText;
+  recalc();
+}
+function addRow(){
+  rowCount++;
+  const tr=document.createElement('tr');
+  tr.innerHTML=`
+    <td><input type="text" value="${rowCount}" style="width:32px;text-align:center"></td>
+    <td class="dl"><input type="text" placeholder="Description of goods…" style="width:100%;text-align:left"></td>
+    <td><input type="text" placeholder="HSN"></td>
+    <td><input type="text" class="qty" oninput="onQtyRate()" placeholder="0"></td>
+    <td><input type="text" class="rate" oninput="onQtyRate()" placeholder="0.00"></td>
+    <td><input type="text" placeholder="Pcs"></td>
+    <td><input type="text" class="amt" oninput="recalc()" placeholder="0.00"></td>
+  `;
+  document.getElementById('itemsBody').appendChild(tr);
+}
+function delRow(){
+  const tb=document.getElementById('itemsBody');
+  if(tb.rows.length>1){tb.deleteRow(tb.rows.length-1);rowCount--;recalc();}
+}
+function parseN(v){return parseFloat(String(v||'').replace(/,/g,''))||0;}
+function onQtyRate(){
+  const qtys=document.querySelectorAll('.qty');
+  const rates=document.querySelectorAll('.rate');
+  const amts=document.querySelectorAll('.amt');
+  for(let i=0;i<qtys.length;i++){
+    const q=parseN(qtys[i].value);const r=parseN(rates[i].value);
+    if(q>0&&r>0) amts[i].value=fmtINR(q*r);
+    else if(qtys[i].value===''&&rates[i].value==='') amts[i].value='';
+  }
+  recalc();
+}
+function recalc(){
+  const amts=document.querySelectorAll('.amt');
+  const qtys=document.querySelectorAll('.qty');
+  let totQty=0,totAmt=0;
+  amts.forEach((a)=>{totAmt+=parseN(a.value);});
+  qtys.forEach(q=>totQty+=parseN(q.value));
+  document.getElementById('ftQty').textContent=totQty>0?totQty:'';
+  document.getElementById('ftAmt').textContent=totAmt>0?'₹ '+fmtINR(totAmt):'';
+  document.getElementById('ts_sub').textContent='₹ '+fmtINR(totAmt);
+  document.getElementById('tx_taxable').value=totAmt>0?fmtINR(totAmt):'';
+  calcTax();
+}
+function calcTax(){
+  const taxable=parseN(document.getElementById('tx_taxable').value);
+  const igstRate=parseN(document.getElementById('tx_igst_rate').value);
+  const cgstRate=parseN(document.getElementById('tx_cgst_rate').value);
+  const sgstRate=parseN(document.getElementById('tx_sgst_rate').value);
+  
+  const igst=(taxable*igstRate/100);
+  const cgst=(taxable*cgstRate/100);
+  const sgst=(taxable*sgstRate/100);
+  const totalTax=igst+cgst+sgst;
+  
+  document.getElementById('tx_igst_amt').value=igst>0?fmtINR(igst):'';
+  document.getElementById('tx_cgst_amt').value=cgst>0?fmtINR(cgst):'';
+  document.getElementById('tx_sgst_amt').value=sgst>0?fmtINR(sgst):'';
+  document.getElementById('tx_totaltax').value=totalTax>0?fmtINR(totalTax):'';
+  
+  document.getElementById('tx_ttaxable').value=taxable>0?fmtINR(taxable):'';
+  document.getElementById('tx_tigst').value=igst>0?fmtINR(igst):'';
+  document.getElementById('tx_tcgst').value=cgst>0?fmtINR(cgst):'';
+  document.getElementById('tx_tsgst').value=sgst>0?fmtINR(sgst):'';
+  document.getElementById('tx_ttotal').value=totalTax>0?fmtINR(totalTax):'';
+  
+  document.getElementById('ts_igst').textContent='₹ '+(igst>0?fmtINR(igst):'0.00');
+  document.getElementById('ts_cgst').textContent='₹ '+(cgst>0?fmtINR(cgst):'0.00');
+  document.getElementById('ts_sgst').textContent='₹ '+(sgst>0?fmtINR(sgst):'0.00');
+  
+  const grand=taxable+igst+cgst+sgst;
+  document.getElementById('ts_grand').textContent='₹ '+fmtINR(grand);
+  document.getElementById('f_amtwords').value=toWords(grand);
+  document.getElementById('f_taxwords').value=totalTax>0?toWords(totalTax):'';
+}
+function clearForm(){
+  if(!confirm('Clear all data?'))return;
+  document.querySelectorAll('#appPage input[type=text],#appPage input[type=date],#appPage textarea').forEach(e=>e.value='');
+  document.getElementById('itemsBody').innerHTML='';rowCount=0;
+  for(let i=0;i<5;i++)addRow();
+  document.getElementById('f_date').value=new Date().toISOString().split('T')[0];
+  const defaultText="Cannanore Handlooms Exports\nMelechovva\nKannur\nGSTIN/UIN : 32AACFC1904F1Z8\nState Name : Kerala, Code : 32";
+  document.getElementById('f_cons').value=defaultText;
+  document.getElementById('f_buyer').value=defaultText;
+  recalc();
+}
+
+/* ================================================================ PRINT INVOICE */
+function gv(id){const e=document.getElementById(id);return e?(e.value||''):'';}
+
+function fmtDate(val){
+  if(!val)return '';
+  const parts=val.split('-');
+  if(parts.length===3&&parts[0].length===4)return parts[2]+'-'+parts[1]+'-'+parts[0];
+  return val;
+}
+
+function printInvoice(){
+  const tb=document.getElementById('itemsBody');
+  let rows='';
+  for(let i=0;i<tb.rows.length;i++){
+    const inp=tb.rows[i].querySelectorAll('input');
+    const desc=inp[1].value,qty=inp[3].value,rate=inp[4].value;
+    if(desc||qty){
+      rows+=`<tr>
+        <td class="ic">${inp[0].value}</td>
+        <td class="il" style="padding-left:6px">${desc}</td>
+        <td class="ic">${inp[2].value}</td>
+        <td class="ic">${qty}</td>
+        <td class="ir">₹ ${rate}</td>
+        <td class="ic">${inp[5].value}</td>
+        <td class="ir">₹ ${inp[6].value}</td>
+      </tr>`;
+    } else {
+      rows+=`<tr style="height:20px"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`;
+    }
+  }
+
+  const companyHTML=`SREE MOOKAMBIKA TEX<br>
+2/82A2 VELLAPARI , MOLAKAVUNDAPALAUAM<br>
+PALLIPALAYAM (BL), KALIYANOOR (VI) PANCHAYATH<br>
+NAMAKKAL (TN)-638008<br>
+GSTIN/UIN : 33AYZPP8905G1ZR<br>
+State Name : Tamil Nadu, Code : 33<br>
+Ph No : 9387220803 | 9944975050<br>
+E-Mail : sreemookambikatex2025@gmail.com`;
+
+  const grandTotalVal=parseN(document.getElementById('ts_grand').innerText.replace('₹',''));
+  const grandFormatted='₹ '+fmtINR(grandTotalVal);
+
+  const html=`<div class="inv-doc">
+    <div class="inv-title">TAX INVOICE</div>
+
+    <table width="100%" style="border-collapse:collapse; margin-bottom:6px;">
+      <colgroup><col style="width:42%"><col style="width:29%"><col style="width:29%"></colgroup>
+      <tr>
+        <td class="co-cell" rowspan="4"><div class="co-name">${companyHTML}</div></td>
+        <td class="field-cell"><div class="field-lbl">Invoice No. / e-Way Bill No.</div><div class="field-val">${gv('f_invno')}${gv('f_ewaybill')?' &nbsp;|&nbsp; '+gv('f_ewaybill'):''}</div></td>
+        <td class="field-cell"><div class="field-lbl">Dated</div><div class="field-val">${fmtDate(gv('f_date'))}</div></td>
+      </tr>
+      <tr>
+        <td class="field-cell"><div class="field-lbl">Delivery Note</div><div class="field-val">${gv('f_dnote')}</div></td>
+        <td class="field-cell"><div class="field-lbl">Mode / Terms of Payment</div><div class="field-val">${gv('f_pterm')}</div></td>
+      </tr>
+      <tr>
+        <td class="field-cell"><div class="field-lbl">Reference No. &amp; Date</div><div class="field-val">${gv('f_refno')}</div></td>
+        <td class="field-cell"><div class="field-lbl">Other References</div><div class="field-val">${gv('f_oref')}</div></td>
+      </tr>
+      <tr>
+        <td class="field-cell"><div class="field-lbl">Buyer's Order No.</div><div class="field-val">${gv('f_bono')}</div></td>
+        <td class="field-cell"><div class="field-lbl">Buyer's Order Dated</div><div class="field-val">${fmtDate(gv('f_bodate'))}</div></td>
+      </tr>
+      <tr>
+        <td class="co-cell" rowspan="3"><div class="field-lbl">Consignee (Ship to)</div><div style="white-space:pre-line;font-size:9.5pt;margin-top:4px">${gv('f_cons')}</div></td>
+        <td class="field-cell"><div class="field-lbl">Dispatch Doc No.</div><div class="field-val">${gv('f_ddoc')}</div></td>
+        <td class="field-cell"><div class="field-lbl">Delivery Note Date</div><div class="field-val">${fmtDate(gv('f_dndate'))}</div></td>
+      </tr>
+      <tr>
+        <td class="field-cell"><div class="field-lbl">Dispatched Through</div><div class="field-val">${gv('f_dthru')}</div></td>
+        <td class="field-cell"><div class="field-lbl">Destination</div><div class="field-val">${gv('f_dest')}</div></td>
+      </tr>
+      <tr>
+        <td class="field-cell"><div class="field-lbl">Bill of Lading / LR-RR No.</div><div class="field-val">${gv('f_bl')}</div></td>
+        <td class="field-cell"><div class="field-lbl">Motor Vehicle No.</div><div class="field-val">${gv('f_veh')}</div></td>
+      </tr>
+      <tr>
+        <td class="co-cell"><div class="field-lbl">Buyer (Bill to)</div><div style="white-space:pre-line;font-size:9.5pt;margin-top:4px">${gv('f_buyer')}</div></td>
+        <td class="field-cell" colspan="2"><div class="field-lbl">Terms of Delivery</div><div class="field-val">${gv('f_dterm')}</div></td>
+      </tr>
+    </table>
+
+    <table width="100%">
+      <thead>
+        <tr>
+          <th class="th-blue" style="width:35px">Sl No.</th>
+          <th class="th-blue" style="text-align:left;padding-left:6px">Description of Goods</th>
+          <th class="th-blue" style="width:65px">HSN/SAC</th>
+          <th class="th-blue" style="width:65px">Quantity</th>
+          <th class="th-blue" style="width:75px">Rate</th>
+          <th class="th-blue" style="width:45px">Per</th>
+          <th class="th-blue" style="width:90px">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows}
+        <tr class="totrow">
+          <td colspan="3" style="text-align:right;font-size:9pt">Total</td>
+          <td class="ic">${document.getElementById('ftQty').textContent}</td>
+          <td colspan="2"></td>
+          <td class="ir">${document.getElementById('ftAmt').textContent}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table style="margin-top:4px">
+      <thead>
+        <tr>
+          <th class="th-blue" rowspan="2">HSN/SAC</th>
+          <th class="th-blue" rowspan="2">Taxable Value (₹)</th>
+          <th class="th-blue" colspan="2">IGST</th>
+          <th class="th-blue" colspan="2">CGST</th>
+          <th class="th-blue" colspan="2">SGST</th>
+          <th class="th-blue" rowspan="2">Total Tax (₹)</th>
+        </tr>
+        <tr>
+          <th class="th-blue">Rate (%)</th><th class="th-blue">Amount (₹)</th>
+          <th class="th-blue">Rate (%)</th><th class="th-blue">Amount (₹)</th>
+          <th class="th-blue">Rate (%)</th><th class="th-blue">Amount (₹)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="ic">${gv('tx_hsn')}</td><td class="ir">${gv('tx_taxable')}</td>
+          <td class="ic">${gv('tx_igst_rate')}</td><td class="ir">${gv('tx_igst_amt')}</td>
+          <td class="ic">${gv('tx_cgst_rate')}</td><td class="ir">${gv('tx_cgst_amt')}</td>
+          <td class="ic">${gv('tx_sgst_rate')}</td><td class="ir">${gv('tx_sgst_amt')}</td>
+          <td class="ir">${gv('tx_totaltax')}</td>
+        </tr>
+        <tr class="totrow">
+          <td class="bold">Total</td><td class="ir bold">${gv('tx_ttaxable')}</td>
+          <td></td><td class="ir bold">${gv('tx_tigst')}</td>
+          <td></td><td class="ir bold">${gv('tx_tcgst')}</td>
+          <td></td><td class="ir bold">${gv('tx_tsgst')}</td>
+          <td class="ir bold">${gv('tx_ttotal')}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:8px;text-align:right;font-weight:600;font-size:10.5pt;border-top:1px solid #ccc;padding-top:5px;">
+      <span style="background:#f0f4fa;padding:2px 12px;border-radius:16px;">GRAND TOTAL (incl. GST): ${grandFormatted}</span>
+    </div>
+    <div style="margin-top:8px"><strong>Amount Chargeable (in words) – E.&amp;O.E :</strong> ${gv('f_amtwords')}</div>
+    <div><strong>Tax Amount (in words):</strong> ${gv('f_taxwords')}</div>
+    <div style="margin-top:12px;display:flex;justify-content:space-between;">
+      <div style="width:50%"><strong>Declaration</strong><br>We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.</div>
+      <div style="text-align:right">for <strong>SREE MOOKAMBIKA TEX</strong><br><br><br>Authorised Signatory</div>
+    </div>
+    <div style="text-align:center;font-size:9px;color:#666;margin-top:12px;font-style:italic;">
+      This is a computer generated invoice
+    </div>
+  </div>`;
+
+  const pd=document.getElementById('printInvoice');
+  pd.innerHTML=html;
+  document.querySelector('#appPage .topbar').style.display='none';
+  document.querySelector('.form-wrap').style.display='none';
+  pd.style.display='block';
+  window.print();
+  setTimeout(()=>{
+    document.querySelector('#appPage .topbar').style.display='flex';
+    document.querySelector('.form-wrap').style.display='block';
+    pd.style.display='none';
+  },700);
+}
+
+/* ================================================================ EXPORT PAGE */
+let salesRowCount=0,purchasesRowCount=0;
+
+
+
+
+function appendResultRow(section,data){
+  const body=document.getElementById(section+'Body');
+  const isS=section==='sales';
+  const rc=isS?++salesRowCount:++purchasesRowCount;
+  const tr=document.createElement('tr');
+  tr.dataset.section=section;
+  
+  // Helper to calculate taxes based on rate %
+  const onTaxChange=(e)=>{
+    const taxableInp=tr.querySelector('input.tax-base');
+    const igstRateInp=tr.querySelector('input.igst-rate');
+    const sgstRateInp=tr.querySelector('input.sgst-rate');
+    const cgstRateInp=tr.querySelector('input.cgst-rate');
+    const igstAmtInp=tr.querySelector('input.igst-amt');
+    const sgstAmtInp=tr.querySelector('input.sgst-amt');
+    const cgstAmtInp=tr.querySelector('input.cgst-amt');
+    const totalTaxInp=tr.querySelector('input.total-tax');
+    
+    const taxableAmt=parseN(taxableInp.value);
+    const igstRate=parseN(igstRateInp.value);
+    const sgstRate=parseN(sgstRateInp.value);
+    const cgstRate=parseN(cgstRateInp.value);
+    
+    const igstAmt=(taxableAmt*igstRate)/100;
+    const sgstAmt=(taxableAmt*sgstRate)/100;
+    const cgstAmt=(taxableAmt*cgstRate)/100;
+    const totalTax=igstAmt+sgstAmt+cgstAmt;
+    
+    igstAmtInp.value=igstAmt>0?igstAmt.toFixed(2):'';
+    sgstAmtInp.value=sgstAmt>0?sgstAmt.toFixed(2):'';
+    cgstAmtInp.value=cgstAmt>0?cgstAmt.toFixed(2):'';
+    totalTaxInp.value=totalTax>0?totalTax.toFixed(2):'';
+    
+    updateResultTotals('${section}');
+  };
+  
+  tr.innerHTML=`
+    <td style="text-align:center;font-size:11px;color:#888">${rc}</td>
+    <td><input type="text" value="${data?data.date||'':''}" onchange="updateResultTotals('${section}')"></td>
+    <td class="tl"><input type="text" value="${data?data.particulars||'':''}" onchange="updateResultTotals('${section}')"></td>
+    <td><input type="text" value="${data?data.gstin||'':''}" onchange="updateResultTotals('${section}')"></td>
+    <td><input type="text" value="${data?data.vchType||'':''}" onchange="updateResultTotals('${section}')"></td>
+    <td><input type="text" value="${data?data.vchNo||'':''}" onchange="updateResultTotals('${section}')"></td>
+    <td><input type="text" class="rn tax-base" value="${data?nvl(data.taxableAmount):''}" placeholder="Amount" data-row-idx="${rc}"></td>
+    <td title="IGST Rate %"><input type="text" class="rn igst-rate" value="" placeholder="Rate %" style="width:50%" data-row-idx="${rc}"></td>
+    <td><input type="text" class="rn igst-amt" value="${data?nvl(data.igst):''}" placeholder="Amount" readonly></td>
+    <td title="CGST Rate %"><input type="text" class="rn cgst-rate" value="" placeholder="Rate %" style="width:50%" data-row-idx="${rc}"></td>
+    <td><input type="text" class="rn cgst-amt" value="${data?nvl(data.cgst):''}" placeholder="Amount" readonly></td>
+    <td title="SGST Rate %"><input type="text" class="rn sgst-rate" value="" placeholder="Rate %" style="width:50%" data-row-idx="${rc}"></td>
+    <td><input type="text" class="rn sgst-amt" value="${data?nvl(data.sgst):''}" placeholder="Amount" readonly></td>
+    <td><input type="text" class="rn" value="${data?nvl(data.roundOff):''}" placeholder="Off" onchange="updateResultTotals('${section}')"></td>
+    <td><input type="text" class="rn total-tax" value="" placeholder="Total" readonly></td>
+    <td><button class="file-del-btn" onclick="this.closest('tr').remove();updateResultTotals('${section}')" title="Remove row">✕</button></td>
+  `;
+  
+  body.appendChild(tr);
+  
+  // Attach tax calculation handlers
+  const taxBaseInp=tr.querySelector('input.tax-base');
+  const igstRateInp=tr.querySelector('input.igst-rate');
+  const sgstRateInp=tr.querySelector('input.sgst-rate');
+  const cgstRateInp=tr.querySelector('input.cgst-rate');
+  
+  const calcTax=()=>onTaxChange();
+  
+  taxBaseInp.addEventListener('input', calcTax);
+  taxBaseInp.addEventListener('change', calcTax);
+  igstRateInp.addEventListener('input', calcTax);
+  igstRateInp.addEventListener('change', calcTax);
+  sgstRateInp.addEventListener('input', calcTax);
+  sgstRateInp.addEventListener('change', calcTax);
+  cgstRateInp.addEventListener('input', calcTax);
+  cgstRateInp.addEventListener('change', calcTax);
+}
+
+function nvl(v){
+  if(v===null||v===undefined||v===0||isNaN(v))return '';
+  return v;
+}
+
+function addResultRow(section){
+  appendResultRow(section,null);
+  updateResultTotals(section);
+}
+
+function updateResultTotals(section){
+  const body=document.getElementById(section+'Body');
+  const rows=[...body.querySelectorAll('tr')];
+  const prefix=section==='sales'?'sf_':'pf_';
+  
+  // Calculate sums for taxable, IGST, CGST, SGST, roundoff, total tax
+  let sumTaxable=0, sumIGST=0, sumCGST=0, sumSGST=0, sumRoundOff=0, sumTotal=0;
+  
+  rows.forEach(tr=>{
+    const taxableInp=tr.querySelector('input.tax-base');
+    const igstAmtInp=tr.querySelector('input.igst-amt');
+    const cgstAmtInp=tr.querySelector('input.cgst-amt');
+    const sgstAmtInp=tr.querySelector('input.sgst-amt');
+    const roundOffInps=tr.querySelectorAll('input.rn');
+    const totalTaxInp=tr.querySelector('input.total-tax');
+    
+    sumTaxable+=parseN(taxableInp.value);
+    sumIGST+=parseN(igstAmtInp.value);
+    sumCGST+=parseN(cgstAmtInp.value);
+    sumSGST+=parseN(sgstAmtInp.value);
+    
+    // Find roundoff input (the one before total-tax)
+    if(roundOffInps.length>0){
+      const roundOffIdx=Array.from(roundOffInps).findIndex(inp=>inp.classList.contains('total-tax'));
+      if(roundOffIdx>0) sumRoundOff+=parseN(roundOffInps[roundOffIdx-1].value);
+    }
+    
+    sumTotal+=parseN(totalTaxInp.value);
+  });
+  
+  // Calculate grand total including all taxes
+  const grandTotal=sumTaxable+sumIGST+sumCGST+sumSGST+sumRoundOff;
+  
+  // Update footer cells
+  const footEl=document.getElementById(section+'Foot');
+  if(footEl){
+    footEl.querySelector('#'+prefix+'taxable')?.parentElement.remove();
+    
+    const cells={
+      igst: sumIGST,
+      cgst: sumCGST,
+      sgst: sumSGST,
+      roff: sumRoundOff,
+      total: sumTotal
+    };
+    
+    Object.keys(cells).forEach(k=>{
+      const el=document.getElementById(prefix+k);
+      if(el) el.textContent=cells[k]!==0?fmtINR(cells[k]):'';
+    });
+  }
+  
+  // Renumber rows
+  rows.forEach((tr,i)=>{
+    const fc=tr.querySelector('td:first-child');
+    if(fc) fc.textContent=i+1;
+  });
+}
+
+function switchTab(tab){
+  document.getElementById('panel-sales').style.display=tab==='sales'?'block':'none';
+  document.getElementById('panel-purchases').style.display=tab==='purchases'?'block':'none';
+  document.getElementById('tab-sales').className='rtab'+(tab==='sales'?' active':'');
+  document.getElementById('tab-purchases').className='rtab'+(tab==='purchases'?' active':'');
+}
+
+
+
+/* ================================================================ TOAST */
+function showToast(msg,type='success'){
+  const t=document.createElement('div');
+  t.className=`toast ${type}`;
+  t.innerHTML=`<span>${msg}</span>`;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3500);
+}
+</script>
+</body>
+</html>
